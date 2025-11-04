@@ -309,6 +309,7 @@ function renderCalendar() {
     const isPast = date < today && date.toDateString() !== today.toDateString()
 
     const button = document.createElement("button")
+    button.type = "button"
     button.className = "calendar-day"
     button.disabled = !isAvailable || isPast
 
@@ -345,18 +346,64 @@ function renderCalendar() {
 
     let priceHTML = ""
     if (priceAdult != null) {
-      priceHTML += `<span class="calendar-day-price">Adult £${priceAdult.toLocaleString("en-GB")}</span>`
+      priceHTML += `
+        <div class="calendar-price-row">
+          <span class="calendar-price-label">Adult</span>
+          <span class="calendar-day-price">£${priceAdult.toLocaleString("en-GB")}</span>
+        </div>
+      `
     }
     if (priceChild != null) {
-      priceHTML += `<span class="calendar-day-price">Child £${priceChild.toLocaleString("en-GB")}</span>`
+      priceHTML += `
+        <div class="calendar-price-row">
+          <span class="calendar-price-label">Child</span>
+          <span class="calendar-day-price">£${priceChild.toLocaleString("en-GB")}</span>
+        </div>
+      `
+    }
+
+    let durationHTML = ""
+    if (dayData?.duration) {
+      durationHTML = `<div class="calendar-day-meta">${dayData.duration}-day adventure</div>`
     }
 
     let noteIcon = ""
     if (dayData?.note) {
-      noteIcon = `<span class="note-icon" title="${dayData.note}">ℹ️</span>`
+      noteIcon = `<span class="note-icon" aria-hidden="true" title="${dayData.note}">i</span>`
     }
 
-    button.innerHTML = `${noteIcon}<span class="calendar-day-number">${dayNum}</span>${priceHTML}`
+    button.innerHTML = `
+      <div class="calendar-day-header">
+        <span class="calendar-day-number">${dayNum}</span>
+        ${noteIcon}
+      </div>
+      ${durationHTML}
+      ${priceHTML ? `<div class="calendar-day-prices">${priceHTML}</div>` : ""}
+    `
+
+    const ariaParts = [`${dayNum} ${currentDate.toLocaleString("en-GB", { month: "long" })} ${year}`]
+    if (isAvailable) {
+      ariaParts.push("available departure")
+    } else if (isPast) {
+      ariaParts.push("past date")
+    } else {
+      ariaParts.push("unavailable")
+    }
+    if (dayData?.duration) {
+      ariaParts.push(`${dayData.duration} day tour`)
+    }
+    if (priceAdult != null) {
+      ariaParts.push(`adult price £${priceAdult.toLocaleString("en-GB")}`)
+    }
+    if (priceChild != null) {
+      ariaParts.push(`child price £${priceChild.toLocaleString("en-GB")}`)
+    }
+    if (dayData?.note) {
+      ariaParts.push(dayData.note)
+    }
+    const ariaLabel = ariaParts.join(", ")
+    button.setAttribute("aria-label", ariaLabel)
+    button.title = ariaLabel
 
     button.addEventListener("click", () => handleDateClick(date, monthData))
 
@@ -382,9 +429,22 @@ function showTooltip(event, text) {
   document.body.appendChild(tooltip)
   currentTooltip = tooltip
 
-  const rect = event.target.getBoundingClientRect()
-  tooltip.style.left = rect.left + rect.width / 2 - tooltip.offsetWidth / 2 + "px"
-  tooltip.style.top = rect.top - tooltip.offsetHeight - 8 + "px"
+  const source = event.currentTarget || event.target
+  const rect = source.getBoundingClientRect()
+  const tooltipWidth = tooltip.offsetWidth
+  const tooltipHeight = tooltip.offsetHeight
+
+  let left = rect.left + rect.width / 2 - tooltipWidth / 2
+  const maxLeft = window.innerWidth - tooltipWidth - 12
+  left = Math.min(Math.max(12, left), maxLeft)
+
+  let top = rect.top - tooltipHeight - 12
+  if (top < 12) {
+    top = rect.bottom + 12
+  }
+
+  tooltip.style.left = `${left}px`
+  tooltip.style.top = `${top}px`
 }
 
 function hideTooltip() {

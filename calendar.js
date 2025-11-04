@@ -463,7 +463,6 @@ function renderBookingSummary() {
           <span>Total</span>
           <span>£${totalPrice.toLocaleString("en-GB")}</span>
         </div>
-        <p class="booking-footer">Prices include all fees</p>
         <a href="${bookingUrl}" target="_blank" class="book-button">Book Now</a>
       </div>
     </div>

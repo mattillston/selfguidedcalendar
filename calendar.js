@@ -413,62 +413,52 @@ function renderBookingSummary() {
   const monthData = getMonthData()
 
   if (!selectedDate) {
-    bookingSummaryEl.innerHTML = `
-      <div class="text-center">
-        <p class="muted-text">Select a departure date to see booking details</p>
-      </div>
-    `
+    bookingSummaryEl.innerHTML = `<div class="booking-summary-empty">Select a departure date to see booking details</div>`
     return
   }
 
   const selectedDayInfo = monthData[selectedDate.getDate()]
-  const selectedDuration = selectedDayInfo?.duration ?? DEFAULT_TOUR_DURATION_DAYS
   const band = getPriceBandForGroupSize(selectedDayInfo, adultCount + childCount)
   const priceAdultPP = band?.adult ?? null
   const priceChildPP = band?.child ?? band?.adult ?? null
   const selectedSku = band?.sku ?? ""
 
-  const totalPrice =
-    priceAdultPP != null && priceChildPP != null ? priceAdultPP * adultCount + priceChildPP * childCount : 0
+  const adultPriceText = priceAdultPP != null ? `£${priceAdultPP.toLocaleString("en-GB")}` : "—"
+  const adultSegment = `<span class="booking-summary-item">Adult ${adultPriceText} (x${adultCount})</span>`
 
-  const returnDate = new Date(selectedDate.getTime() + (selectedDuration - 1) * 24 * 60 * 60 * 1000)
+  let childSegment = ""
+  let childTotal = 0
+  let hasChildTotal = true
+
+  if (childCount > 0) {
+    const childPriceText = priceChildPP != null ? `£${priceChildPP.toLocaleString("en-GB")}` : "—"
+    childSegment = `<span class="booking-summary-item">Child ${childPriceText} (x${childCount})</span>`
+    if (priceChildPP != null) {
+      childTotal = priceChildPP * childCount
+    } else {
+      hasChildTotal = false
+    }
+  }
+
+  const adultTotal = priceAdultPP != null ? priceAdultPP * adultCount : null
+  const canComputeTotal = adultTotal != null && hasChildTotal
+  const totalValue = canComputeTotal ? adultTotal + childTotal : null
+  const totalText = totalValue != null ? `£${totalValue.toLocaleString("en-GB")}` : "—"
 
   const startDate = selectedDate.toISOString().split("T")[0]
-  const bookingUrl = `https://secure.keadventure.com/book?sku=${selectedSku}&date=${startDate}&adults=${adultCount}&children=${childCount}`
-
-  const childrenLine =
-    childCount > 0
-      ? `
-    <div class="booking-line">
-      <span>Children (${childCount}) × £${priceChildPP?.toLocaleString("en-GB") ?? "—"}</span>
-      <span>${priceChildPP != null ? "£" + (priceChildPP * childCount).toLocaleString("en-GB") : "—"}</span>
-    </div>
-  `
-      : ""
+  const bookingUrl = selectedSku
+    ? `https://secure.keadventure.com/book?sku=${selectedSku}&date=${startDate}&adults=${adultCount}&children=${childCount}`
+    : "#"
 
   bookingSummaryEl.innerHTML = `
     <div class="booking-summary-content">
-      <div class="booking-info">
-        <p class="booking-label">Departure Date</p>
-        <p class="booking-value">${selectedDate.toLocaleDateString("en-GB", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</p>
-      </div>
-
-      <div class="booking-info">
-        <p class="booking-label">Return Date</p>
-        <p class="booking-date">${returnDate.toLocaleDateString("en-GB", { month: "short", day: "numeric", year: "numeric" })}</p>
-      </div>
-
-      <div class="booking-breakdown">
-        <div class="booking-line">
-          <span>Adults (${adultCount}) × £${priceAdultPP?.toLocaleString("en-GB") ?? "—"}</span>
-          <span>${priceAdultPP != null ? "£" + (priceAdultPP * adultCount).toLocaleString("en-GB") : "—"}</span>
+      <div class="booking-summary-row">
+        ${adultSegment}
+        ${childSegment}
+        <div class="booking-summary-actions">
+          <span class="booking-summary-item booking-summary-total">Total: ${totalText}</span>
+          <a href="${bookingUrl}" target="_blank" class="book-button">BOOK</a>
         </div>
-        ${childrenLine}
-        <div class="booking-total">
-          <span>Total</span>
-          <span>£${totalPrice.toLocaleString("en-GB")}</span>
-        </div>
-        <a href="${bookingUrl}" target="_blank" class="book-button">Book Now</a>
       </div>
     </div>
   `

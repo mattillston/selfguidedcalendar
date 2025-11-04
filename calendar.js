@@ -45,7 +45,6 @@ const TOUR_AVAILABILITY = {
         ],
       },
       6: { available: true, duration: 8, prices: [{ min: 1, max: 4, adult: 1299, sku: "SKU006-1-4" }] },
-      7: { available: true, duration: 8, prices: [{ min: 1, max: 4, adult: 1299, sku: "SKU007-1-4" }] },
       8: {
         available: true,
         duration: 8,
@@ -64,7 +63,7 @@ const TOUR_AVAILABILITY = {
           { min: 3, max: 4, adult: 1399, sku: "SKU010-3-4" },
         ],
       },
-      11: { available: false, duration: 8, prices: [{ min: 1, max: 4, adult: 1299, sku: "SKU011-1-4" }] },
+      11: { available: true, duration: 8, prices: [{ min: 1, max: 4, adult: 1299, sku: "SKU011-1-4" }] },
       12: {
         available: true,
         duration: 8,
@@ -74,7 +73,6 @@ const TOUR_AVAILABILITY = {
         ],
       },
       13: { available: true, duration: 8, prices: [{ min: 1, max: 4, adult: 1299, child: 1099, sku: "SKU013-1-4" }] },
-      14: { available: true, duration: 8, prices: [{ min: 1, max: 4, adult: 1299, sku: "SKU014-1-4" }] },
       15: { available: true, duration: 8, prices: [{ min: 1, max: 4, adult: 1299, sku: "SKU015-1-4" }] },
       16: {
         available: true,
@@ -95,7 +93,6 @@ const TOUR_AVAILABILITY = {
           { min: 3, max: 4, adult: 1399, sku: "SKU020-3-4" },
         ],
       },
-      21: { available: false, duration: 8, prices: [{ min: 1, max: 4, adult: 1299, sku: "SKU021-1-4" }] },
       22: {
         available: true,
         duration: 8,
@@ -123,7 +120,6 @@ const TOUR_AVAILABILITY = {
         ],
       },
       27: { available: true, duration: 10, prices: [{ min: 1, max: 4, adult: 1299, sku: "SKU027-1-4" }] },
-      28: { available: true, duration: 10, prices: [{ min: 1, max: 4, adult: 1299, sku: "SKU028-1-4" }] },
       29: {
         available: true,
         duration: 10,
@@ -343,20 +339,29 @@ function renderCalendar() {
       button.classList.add("highlighted")
     }
 
-    let priceHTML = ""
+    const priceSegments = []
     if (priceAdult != null) {
-      priceHTML += `<span class="calendar-day-price">Adult £${priceAdult.toLocaleString("en-GB")}</span>`
+      priceSegments.push(
+        `<span class="calendar-day-price"> <span class="calendar-day-price-value">£${priceAdult.toLocaleString(
+          "en-GB"
+        )}</span> <span class="calendar-day-price-label">Adult</span></span>`
+      )
     }
     if (priceChild != null) {
-      priceHTML += `<span class="calendar-day-price">Child £${priceChild.toLocaleString("en-GB")}</span>`
+      priceSegments.push(
+        `<span class="calendar-day-price"> <span class="calendar-day-price-value">£${priceChild.toLocaleString(
+          "en-GB"
+        )}</span> <span class="calendar-day-price-label">Child</span></span>`
+      )
     }
+    const pricesHTML = priceSegments.length ? `<div class="calendar-day-prices">${priceSegments.join("")}</div>` : ""
 
     let noteIcon = ""
     if (dayData?.note) {
       noteIcon = `<span class="note-icon" title="${dayData.note}">ℹ️</span>`
     }
 
-    button.innerHTML = `${noteIcon}<span class="calendar-day-number">${dayNum}</span>${priceHTML}`
+    button.innerHTML = `${noteIcon}<span class="calendar-day-number">${dayNum}</span>${pricesHTML}`
 
     button.addEventListener("click", () => handleDateClick(date, monthData))
 

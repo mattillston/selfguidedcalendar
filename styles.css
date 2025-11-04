@@ -123,7 +123,7 @@ body {
 .calendar-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 24px;
 }
 
@@ -182,11 +182,12 @@ body {
   aspect-ratio: 1;
   border-radius: 8px;
   border: none;
-  padding: 8px 4px;
+  padding: 8px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: flex-start;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -232,11 +233,46 @@ body {
 
 .calendar-day-number {
   font-weight: 700;
+  position: absolute;
+  top: 8px;
+  right: 8px;
 }
 
 .calendar-day-price {
   font-size: 11px;
   line-height: 1.2;
+  display: inline-flex;
+  gap: 4px;
+  align-items: baseline;
+}
+
+.calendar-day-prices {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+}
+
+.calendar-day-price-label {
+  font-weight: 400;
+}
+
+.calendar-day-price-value {
+  font-weight: 700;
+}
+
+.calendar-day .note-icon {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
+.calendar-day.highlighted .calendar-day-price-label,
+.calendar-day.highlighted .calendar-day-price-value {
+  opacity: 0.2;
 }
 
 /* Booking Summary */

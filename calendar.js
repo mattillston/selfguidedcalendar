@@ -344,7 +344,7 @@ function renderCalendar() {
       priceSegments.push(
         `<span class="calendar-day-price"> <span class="calendar-day-price-value">£${priceAdult.toLocaleString(
           "en-GB"
-        )}</span> <span class="calendar-day-price-label">Adult</span></span>`
+        )}</span> <span class="calendar-day-price-label">pp</span></span>`
       )
     }
     if (priceChild != null) {
@@ -457,7 +457,7 @@ function renderBookingSummary() {
         ${childSegment}
         <div class="booking-summary-actions">
           <span class="booking-summary-item booking-summary-total">Total: ${totalText}</span>
-          <a href="${bookingUrl}" target="_blank" class="book-button">BOOK</a>
+          <a href="${bookingUrl}" target="_blank" class="book-button">BOOK NOW</a>
         </div>
       </div>
     </div>

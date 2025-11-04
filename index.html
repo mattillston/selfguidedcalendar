@@ -71,6 +71,14 @@
     </div>
   </div>
 
-  <script src="calendar.js"></script>
+  <script type="module">
+    import { initCalendarApp } from "./calendar.js"
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initCalendarApp, { once: true })
+    } else {
+      initCalendarApp()
+    }
+  </script>
 </body>
 </html>

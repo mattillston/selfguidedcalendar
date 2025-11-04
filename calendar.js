@@ -510,25 +510,30 @@ function updateUI() {
   renderBookingSummary()
 }
 
-// Event listeners
-document.querySelectorAll("[data-adult-count]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const count = Number.parseInt(btn.dataset.adultCount)
-    setAdultCount(count)
+let initialized = false
+
+export function initCalendarApp() {
+  if (initialized) return
+  initialized = true
+
+  document.querySelectorAll("[data-adult-count]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const count = Number.parseInt(btn.dataset.adultCount)
+      setAdultCount(count)
+    })
   })
-})
 
-document.getElementById("prev-month").addEventListener("click", () => {
-  currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
-  selectedDate = null
+  document.getElementById("prev-month").addEventListener("click", () => {
+    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
+    selectedDate = null
+    updateUI()
+  })
+
+  document.getElementById("next-month").addEventListener("click", () => {
+    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
+    selectedDate = null
+    updateUI()
+  })
+
   updateUI()
-})
-
-document.getElementById("next-month").addEventListener("click", () => {
-  currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
-  selectedDate = null
-  updateUI()
-})
-
-// Initial render
-updateUI()
+}

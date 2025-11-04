@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tour Availability Calendar</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <!-- Group Size + Children Selection -->
+      <!-- Updated labels to Adults/Children and renamed data attributes -->
+      <div class="selection-grid">
+        <div class="selection-group">
+          <label class="label">Number of Adults</label>
+          <div class="button-group">
+            <button class="group-button" data-adult-count="1">1</button>
+            <button class="group-button" data-adult-count="2">2</button>
+            <button class="group-button" data-adult-count="3">3</button>
+            <button class="group-button" data-adult-count="4">4</button>
+          </div>
+        </div>
+
+        <div class="selection-group">
+          <label class="label">Number of Children</label>
+          <div class="button-group" id="children-buttons"></div>
+          <p class="helper-text" id="adults-children-text">Adults: 1 • Children: 0</p>
+        </div>
+      </div>
+
+      <!-- Calendar Navigation -->
+      <div class="calendar-header">
+        <h2 class="month-title" id="month-title">November 2025</h2>
+        <div class="nav-buttons">
+          <button class="nav-button" id="prev-month" aria-label="Previous month">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="nav-button" id="next-month" aria-label="Next month">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Calendar -->
+      <div class="calendar-container">
+        <!-- Day headers -->
+        <div class="calendar-grid">
+          <div class="day-header">Sun</div>
+          <div class="day-header">Mon</div>
+          <div class="day-header">Tue</div>
+          <div class="day-header">Wed</div>
+          <div class="day-header">Thu</div>
+          <div class="day-header">Fri</div>
+          <div class="day-header">Sat</div>
+        </div>
+        <!-- Calendar days will be inserted here -->
+        <div id="calendar-days" class="calendar-grid"></div>
+      </div>
+    </div>
+
+    <!-- Booking Summary -->
+    <div class="card booking-summary" id="booking-summary">
+      <div class="text-center">
+        <p class="muted-text">Select a departure date to see booking details</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="calendar.js"></script>
+</body>
+</html>

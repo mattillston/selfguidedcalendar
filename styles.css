@@ -1,0 +1,354 @@
+/* Root color variables matching the design system */
+:root {
+  --background: oklch(0.98 0.002 257.855);
+  --foreground: oklch(0.21 0.04 267.925);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.04 267.925);
+  --primary: oklch(0.573 0.286 29.04);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.96 0.007 257.855);
+  --secondary-foreground: oklch(0.21 0.04 267.925);
+  --muted: oklch(0.91 0.005 257.855);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.6 0.2 34);
+  --accent-foreground: oklch(0.21 0.04 267.925);
+  --border: oklch(0.92 0.007 257.855);
+}
+
+.dark {
+  --background: oklch(0.12 0.03 267.925);
+  --foreground: oklch(0.95 0.01 257.855);
+  --card: oklch(0.18 0.03 267.925);
+  --card-foreground: oklch(0.95 0.01 257.855);
+  --primary: oklch(0.68 0.2 34);
+  --primary-foreground: oklch(0.21 0.04 267.925);
+  --secondary: oklch(0.28 0.04 267.925);
+  --secondary-foreground: oklch(0.95 0.01 257.855);
+  --muted: oklch(0.25 0.03 267.925);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.68 0.2 34);
+  --accent-foreground: oklch(0.21 0.04 267.925);
+  --border: oklch(0.28 0.04 267.925);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+/* Selection Controls */
+.selection-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+@media (min-width: 640px) {
+  .selection-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.selection-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 12px;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+}
+
+.group-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.group-button:hover:not(.active) {
+  background-color: var(--muted);
+}
+
+.group-button.active {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.helper-text {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-top: 8px;
+}
+
+/* Calendar Navigation */
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.month-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-button {
+  width: auto;
+  padding: 8px;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--foreground);
+  transition: background-color 200ms ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-button:hover {
+  background-color: var(--secondary);
+}
+
+/* Calendar Grid */
+.calendar-container {
+  background-color: var(--background);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.day-header {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  padding: 8px 0;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  border: none;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+}
+
+.calendar-day.empty {
+  cursor: default;
+}
+
+.calendar-day.past {
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.calendar-day.unavailable {
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  cursor: not-allowed;
+}
+
+.calendar-day.available {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.calendar-day.available:hover:not(.selected):not(.highlighted) {
+  background-color: rgba(var(--accent-color), 0.3);
+}
+
+.calendar-day.highlighted {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.calendar-day.selected {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.calendar-day-number {
+  font-weight: 700;
+}
+
+.calendar-day-price {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+/* Booking Summary */
+.booking-summary {
+  border: 1px solid rgba(var(--primary-color), 0.2);
+}
+
+.booking-summary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.booking-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-label {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  margin-bottom: 4px;
+}
+
+.booking-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.booking-date {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.booking-breakdown {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.booking-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--foreground);
+}
+
+.booking-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--foreground);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.booking-footer {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+
+.note-icon {
+  font-size: 12px;
+  cursor: help;
+  opacity: 0.7;
+}
+
+/* Added tooltip styling */
+.tooltip {
+  position: fixed;
+  background-color: var(--foreground);
+  color: var(--card);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+/* Updated book button to accept both button and link styling */
+.book-button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 200ms ease-in-out;
+  text-decoration: none;
+  text-align: center;
+}
+
+.book-button:hover {
+  opacity: 0.9;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.muted-text {
+  color: var(--muted-foreground);
+}

@@ -257,13 +257,13 @@ function getPriceBandForGroupSize(dayInfo, groupSize) {
 function setAdultCount(n) {
   adultCount = Math.max(1, n)
   // Enforce max 2 children per adult
-  const maxChildren = adultCount * 2
+  const maxChildren = Math.min(adultCount * 2, 4)
   childCount = Math.min(childCount, maxChildren)
   updateUI()
 }
 
 function setChildCount(n) {
-  const maxChildren = adultCount * 2
+  const maxChildren = Math.min(adultCount * 2, 4)
   childCount = Math.max(0, Math.min(n, maxChildren))
   updateUI()
 }
@@ -492,7 +492,7 @@ function updateChildrenButtons() {
   const childrenContainer = document.getElementById("children-buttons")
   childrenContainer.innerHTML = ""
 
-  const maxChildren = adultCount * 2
+  const maxChildren = Math.min(adultCount * 2, 4)
   for (let i = 0; i <= maxChildren; i++) {
     const button = document.createElement("button")
     button.className = `group-button ${i === childCount ? "active" : ""}`

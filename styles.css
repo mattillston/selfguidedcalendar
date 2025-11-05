@@ -131,6 +131,28 @@ body {
   color: var(--foreground);
 }
 
+.month-select {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--foreground);
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 6px 32px 6px 12px;
+  background-color: #ffffff;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #999 50%), linear-gradient(135deg, #999 50%, transparent 50%);
+  background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.month-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(58, 191, 108, 0.2);
+}
+
 .nav-buttons {
   display: flex;
   gap: 8px;

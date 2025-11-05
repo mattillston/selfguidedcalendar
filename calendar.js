@@ -243,6 +243,7 @@ let currentDate = new Date(today.getFullYear(), today.getMonth(), 1)
 let adultCount = 1
 let childCount = 0
 let selectedDate = null
+let monthOptions = []
 
 // Helper functions
 function getPriceBandForGroupSize(dayInfo, groupSize) {
@@ -271,6 +272,22 @@ function getMonthData() {
   const year = currentDate.getFullYear()
   const month = currentDate.getMonth() + 1
   return TOUR_AVAILABILITY[year]?.[month] ?? {}
+}
+
+function initMonthOptions() {
+  if (monthOptions.length) return
+  const options = []
+  const base = new Date(today.getFullYear(), today.getMonth(), 1)
+  for (let i = 0; i < 18; i++) {
+    const date = new Date(base.getFullYear(), base.getMonth() + i, 1)
+    options.push({
+      value: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`,
+      label: date.toLocaleString("en-GB", { month: "long", year: "numeric" }),
+      year: date.getFullYear(),
+      month: date.getMonth(),
+    })
+  }
+  monthOptions = options
 }
 
 function renderCalendar() {
@@ -489,7 +506,37 @@ function updateChildrenButtons() {
 
 function updateMonthTitle() {
   const monthName = currentDate.toLocaleString("en-GB", { month: "long", year: "numeric" })
-  document.getElementById("month-title").textContent = monthName
+  const monthSelect = document.getElementById("month-select")
+  if (!monthSelect) return
+
+  if (!monthOptions.length) {
+    initMonthOptions()
+    monthOptions.forEach((opt) => {
+      const optionEl = document.createElement("option")
+      optionEl.value = opt.value
+      optionEl.textContent = opt.label
+      monthSelect.appendChild(optionEl)
+    })
+  }
+
+  const currentValue = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}`
+  if (monthSelect.value !== currentValue) {
+    monthSelect.value = currentValue
+  }
+
+  const hasOption = monthOptions.some((opt) => opt.value === currentValue)
+  if (!hasOption) {
+    const optionEl = document.createElement("option")
+    optionEl.value = currentValue
+    optionEl.textContent = monthName
+    monthSelect.appendChild(optionEl)
+    monthOptions.push({
+      value: currentValue,
+      label: monthName,
+      year: currentDate.getFullYear(),
+      month: currentDate.getMonth(),
+    })
+  }
 }
 
 function updateUI() {
@@ -518,6 +565,18 @@ document.getElementById("next-month").addEventListener("click", () => {
   currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
   selectedDate = null
   updateUI()
+})
+
+document.getElementById("month-select").addEventListener("change", (event) => {
+  const value = event.target.value
+  const [yearStr, monthStr] = value.split("-")
+  const year = Number.parseInt(yearStr)
+  const month = Number.parseInt(monthStr) - 1
+  if (!Number.isNaN(year) && !Number.isNaN(month)) {
+    currentDate = new Date(year, month, 1)
+    selectedDate = null
+    updateUI()
+  }
 })
 
 // Initial render

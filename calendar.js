@@ -306,7 +306,7 @@ function renderCalendar() {
   // Empty cells
   for (let i = 0; i < startingDayOfWeek; i++) {
     const emptyDiv = document.createElement("div")
-    emptyDiv.className = "calendar-day empty"
+    emptyDiv.className = "sg-calendar-day empty"
     calendarDaysEl.appendChild(emptyDiv)
   }
 
@@ -322,7 +322,7 @@ function renderCalendar() {
     const isPast = date < today && date.toDateString() !== today.toDateString()
 
     const button = document.createElement("button")
-    button.className = "calendar-day"
+    button.className = "sg-calendar-day"
     button.disabled = !isAvailable || isPast
 
     const isStart =
@@ -399,7 +399,7 @@ function showTooltip(event, text) {
   hideTooltip()
 
   const tooltip = document.createElement("div")
-  tooltip.className = "tooltip"
+  tooltip.className = "sg-tooltip"
   tooltip.textContent = text
   document.body.appendChild(tooltip)
   currentTooltip = tooltip
@@ -495,7 +495,7 @@ function updateChildrenButtons() {
   const maxChildren = adultCount * 2
   for (let i = 0; i <= maxChildren; i++) {
     const button = document.createElement("button")
-    button.className = `group-button ${i === childCount ? "active" : ""}`
+    button.className = `sg-group-button ${i === childCount ? "active" : ""}`
     button.textContent = i
     button.addEventListener("click", () => setChildCount(i))
     childrenContainer.appendChild(button)

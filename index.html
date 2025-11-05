@@ -7,38 +7,38 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <div class="card">
+  <div class="sg-container">
+    <div class="sg-card">
       <!-- Group Size + Children Selection -->
       <!-- Updated labels to Adults/Children and renamed data attributes -->
-      <div class="selection-grid">
-        <div class="selection-group">
-          <label class="label">Number of Adults</label>
-          <div class="button-group">
-            <button class="group-button" data-adult-count="1">1</button>
-            <button class="group-button" data-adult-count="2">2</button>
-            <button class="group-button" data-adult-count="3">3</button>
-            <button class="group-button" data-adult-count="4">4</button>
+      <div class="sg-selection-grid">
+        <div class="sg-selection-group">
+          <label class="sg-label">Number of Adults</label>
+          <div class="sg-button-group">
+            <button class="sg-group-button" data-adult-count="1">1</button>
+            <button class="sg-group-button" data-adult-count="2">2</button>
+            <button class="sg-group-button" data-adult-count="3">3</button>
+            <button class="sg-group-button" data-adult-count="4">4</button>
           </div>
         </div>
 
-        <div class="selection-group">
-          <label class="label">Number of Children</label>
-          <div class="button-group" id="children-buttons"></div>
-          <p class="helper-text" id="adults-children-text">Adults: 1 • Children: 0</p>
+        <div class="sg-selection-group">
+          <label class="sg-label">Number of Children</label>
+          <div class="sg-button-group" id="children-buttons"></div>
+          <p class="sg-helper-text" id="adults-children-text">Adults: 1 • Children: 0</p>
         </div>
       </div>
 
       <!-- Calendar Navigation -->
-      <div class="calendar-header">
-        <div class="nav-buttons">
-          <button class="nav-button" id="prev-month" aria-label="Previous month">
+      <div class="sg-calendar-header">
+        <div class="sg-nav-buttons">
+          <button class="sg-nav-button" id="prev-month" aria-label="Previous month">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </button>
-          <select class="month-select" id="month-select" aria-label="Select month"></select>
-          <button class="nav-button" id="next-month" aria-label="Next month">
+          <select class="sg-month-select" id="month-select" aria-label="Select month"></select>
+          <button class="sg-nav-button" id="next-month" aria-label="Next month">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
@@ -47,25 +47,25 @@
       </div>
 
       <!-- Calendar -->
-      <div class="calendar-container">
+      <div class="sg-calendar-container">
         <!-- Day headers -->
-        <div class="calendar-grid day-headers">
-          <div class="day-header">SUN</div>
-          <div class="day-header">MON</div>
-          <div class="day-header">TUE</div>
-          <div class="day-header">WED</div>
-          <div class="day-header">THU</div>
-          <div class="day-header">FRI</div>
-          <div class="day-header">SAT</div>
+        <div class="sg-calendar-grid day-headers">
+          <div class=sg-day-header">SUN</div>
+          <div class="sg-day-header">MON</div>
+          <div class="sg-day-header">TUE</div>
+          <div class="sg-day-header">WED</div>
+          <div class="sg-day-header">THU</div>
+          <div class="sg-day-header">FRI</div>
+          <div class="sg-day-header">SAT</div>
         </div>
         <!-- Calendar days will be inserted here -->
-        <div id="calendar-days" class="calendar-grid"></div>
+        <div id="calendar-days" class="sg-calendar-grid"></div>
       </div>
     </div>
 
     <!-- Booking Summary -->
-    <div class="card booking-summary" id="booking-summary">
-      <div class="booking-summary-empty">Select a departure date to see booking details</div>
+    <div class="sg-card booking-summary" id="booking-summary">
+      <div class="sg-booking-summary-empty">Select a departure date to see booking details</div>
     </div>
   </div>
 
